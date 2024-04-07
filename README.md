@@ -7,3 +7,5 @@ run kubectl get pods     ---|
 run kubectl get nodes       |---(all these three commands to check if the cluster is working correctly) 
 run kubectl get services ---|
 run minikube service hello-node-service --url (to get the url of the application)
+
+drive link (ss and recordings ) - https://drive.google.com/drive/folders/1UI_h4VcMnhiFkVJrCvXeXpXO_syeP8Wz?usp=sharing
