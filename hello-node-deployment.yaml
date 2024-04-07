@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-node-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: hello-node
+  template:
+    metadata:
+      labels:
+        app: hello-node
+    spec:
+      containers:
+        - name: hello-node
+          image: utkarshsathe/hello-node:latest
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              cpu: "100m"  # Request 100 millicpu (0.1 CPU)
+              memory: "128Mi"  # Request 128 MiB memory
+            limits:
+              cpu: "500m"  # Limit to 500 millicpu (0.5 CPU)
+              memory: "256Mi"  # Limit to 256 MiB memory
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: hello-node-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: hello-node-deployment
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: AverageValue
+        averageValue: 50m
